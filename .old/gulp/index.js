@@ -4,7 +4,7 @@ const through = require('through2');
 const gutil = require('gulp-util');
 const PluginError = gutil.PluginError;
 
-const PLUGIN_NAME = require('../package.json').name;
+const PLUGIN_NAME = require('../../package.json').name;
 
 const Compiler = require('./compiler');
 

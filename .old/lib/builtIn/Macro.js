@@ -2,7 +2,7 @@
 
 const DefaultConfig = require('../DefaultConfig');
 const MACROSTEP = /^macro (.*) ?is executed$/;
-const {Step} = require('gherkin-ast');
+const {Step} = require('gherkin-ast/index');
 
 /**
  * Macro to create a Cucumber step by combining a block of steps, simplifying often recurring steps.

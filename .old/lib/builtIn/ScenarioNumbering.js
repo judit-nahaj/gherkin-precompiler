@@ -1,7 +1,7 @@
 'use strict';
 
 const DefaultConfig = require('../DefaultConfig');
-const {Background} =  require('gherkin-ast');
+const {Background} =  require('gherkin-ast/index');
 
 /**
  * @typedef {Object} ScenarioNumberConfiguration

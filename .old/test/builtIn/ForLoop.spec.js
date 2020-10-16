@@ -4,7 +4,7 @@ const ForLoop = require(path.resolve('lib/builtIn/ForLoop.js'));
 const expect = require('chai').expect;
 const API = require(path.resolve('lib'));
 const sinon = require('sinon');
-const {Scenario, Tag} = require('gherkin-ast');
+const {Scenario, Tag} = require('gherkin-ast/index');
 
 
 describe('builtIn.ForLoop', () => {

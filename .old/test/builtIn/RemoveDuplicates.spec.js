@@ -1,7 +1,7 @@
 'use strict';
 
 const {resolve} = require('path');
-const {Tag, Examples, TableRow, TableCell} = require('gherkin-ast');
+const {Tag, Examples, TableRow, TableCell} = require('gherkin-ast/index');
 const RemoveDuplicates = require(resolve('lib/builtIn/RemoveDuplicates.js'));
 const API = require(resolve('lib'));
 const expect = require('chai').expect;

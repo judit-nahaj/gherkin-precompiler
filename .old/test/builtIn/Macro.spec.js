@@ -3,7 +3,7 @@ const path = require('path');
 const Macro = require(path.resolve('lib/builtIn/Macro.js'));
 const expect = require('chai').expect;
 const API = require(path.resolve('lib'));
-const {Scenario, Tag, Step} = require('gherkin-ast');
+const {Scenario, Tag, Step} = require('gherkin-ast/index');
 
 
 describe('builtIn.Macro', () => {

@@ -1,7 +1,7 @@
 'use strict';
 
 const DefaultConfig = require('../DefaultConfig');
-const {Tag} = require('gherkin-ast');
+const {Tag} = require('gherkin-ast/index');
 const ObjectSet = require('object-set-type');
 
 /**

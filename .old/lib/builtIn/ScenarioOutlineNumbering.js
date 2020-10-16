@@ -1,7 +1,7 @@
 'use strict';
 
 const DefaultConfig = require('../DefaultConfig');
-const {TableCell} =  require('gherkin-ast');
+const {TableCell} =  require('gherkin-ast/index');
 
 /**
  * @typedef {Object} ScenarioOutlineNumberConfiguration

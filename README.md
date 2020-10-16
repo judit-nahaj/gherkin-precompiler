@@ -1,21 +1,22 @@
-# gherkin-precompiler
+# gherking
 
-[![Build Status](https://travis-ci.org/judit-nahaj/gherkin-precompiler.svg?branch=master)](https://travis-ci.org/judit-nahaj/gherkin-precompiler) [![dependency Status](https://david-dm.org/judit-nahaj/gherkin-precompiler.svg)](https://david-dm.org/judit-nahaj/gherkin-precompiler) [![devDependency Status](https://david-dm.org/judit-nahaj/gherkin-precompiler/dev-status.svg)](https://david-dm.org/judit-nahaj/gherkin-precompiler#info=devDependencies) [![Coverage Status](https://coveralls.io/repos/github/judit-nahaj/gherkin-precompiler/badge.svg?branch=master)](https://coveralls.io/github/judit-nahaj/gherkin-precompiler?branch=master)
+[![Build Status](https://travis-ci.org/gherking/gherking.svg?branch=master)](https://travis-ci.org/gherking/gherking) [![dependency Status](https://david-dm.org/gherking/gherking.svg)](https://david-dm.org/gherking/gherking) [![devDependency Status](https://david-dm.org/gherking/gherking/dev-status.svg)](https://david-dm.org/gherking/gherking#info=devDependencies) [![Coverage Status](https://coveralls.io/repos/github/gherking/gherking/badge.svg?branch=master)](https://coveralls.io/github/gherking/gherking?branch=master)
 
 Simple pre-compiler for Gherkin feature files.
 
-It is based on the AST what is provided by [gherkin-assembler](https://www.npmjs.com/package/gherkin-assembler).
+It is based on the AST what is provided by [gherkin-ast](https://www.npmjs.com/package/gherkin-ast).
 
 ## Usage
 
 ```javascript
 'use strict';
-const compiler = require('gherkin-precompiler');
+const compiler = require('gherking');
+const {Replacer} = require('gpc-replacer');
 
 let ast = compiler.load('./features/src/login.feature');
 ast = compiler.process(
     ast,
-    new compiler.builtIn.Replacer({
+    new Replacer({
         name: 'Hello'
     })
 );
@@ -24,16 +25,32 @@ compiler.save('./features/dist/login.feature', ast, {
 });
 ```
 
-### Built-in pre compilers
+```typescript
+'use strict';
+import {load, process, save} from "gherking";
+import {Replacer} from "gpc-replacer";
 
- * [ForLoop](lib/builtIn/ForLoop.md) - Enables the user to loop scenarios and scenario outlines in order to repeat them.
- * [Macro](lib/builtIn/Macro.md) - Enables the user to create and execute macros.
- * [RemoveDuplicates](lib/builtIn/RemoveDuplicates.md) - Removes duplicated tags or example data table rows.
- * [Replacer](lib/builtIn/Replacer.md) - Replaces keywords in the feature files.
- * [ScenarioNumbering](lib/builtIn/ScenarioNumbering.md) - Adds an index to all scenario and scenario outline's name.
- * [ScenarioOutlineExpander](lib/builtIn/ScenarioOutlineExpander.md) - Expand the Scenario Outlines to actual scenarios.
- * [ScenarioOutlineNumbering](lib/builtIn/ScenarioOutlineNumbering.md) - Makes all scenario, generated from scenario outlines unique.
- * [SteoGroups](lib/builtIn/StepGroups.md) - Corrects the gherkin keywords of steps to make the tests more readable.
+let ast = load("./features/src/login.feature");
+ast = process(
+    ast,
+    new Replacer({
+        name: 'Hello'
+    }));
+save('./features/dist/login.feature', ast, {
+    lineBreak: '\r\n'
+});
+```
+
+### Pre-compilers
+
+ * [ForLoop](https://www.npmjs.com/package/gpc-for-loop) - Enables the user to loop scenarios and scenario outlines in order to repeat them.
+ * [Macro](https://www.npmjs.com/package/gpc-macro) - Enables the user to create and execute macros.
+ * [RemoveDuplicates](https://www.npmjs.com/package/gpc-remove-duplicates) - Removes duplicated tags or example data table rows.
+ * [Replacer](https://www.npmjs.com/package/gpc-replacer) - Replaces keywords in the feature files.
+ * [ScenarioNumbering](https://www.npmjs.com/package/gpc-scenario-numbering) - Adds an index to all scenario and scenario outline's name.
+ * [ScenarioOutlineExpander](https://www.npmjs.com/package/gpc-scenario-outline-expander) - Expand the Scenario Outlines to actual scenarios.
+ * [ScenarioOutlineNumbering](https://www.npmjs.com/package/gpc-scenario-outline-numbering) - Makes all scenario, generated from scenario outlines unique.
+ * [StepGroups](https://www.npmjs.com/package/gpc-step-groups) - Corrects the gherkin keywords of steps to make the tests more readable.
 
 ## CLI
 
@@ -41,10 +58,10 @@ The package provides a command line interface to be able to easily precompile fe
 
 ```bash
 # install package globally
-npm install -g gherkin-precompiler
+npm install -g gherking
 
-# use precompile or gherkin-precompiler commands
-precompile --config precompiler.json --base e2e/features/src --destination e2e/features/dist
+# use gherking, precompile or gherkin-precompiler commands
+gherking --config precompiler.json --base e2e/features/src --destination e2e/features/dist
 ```
 
 ### Arguments
@@ -75,10 +92,10 @@ The configuration **must** contain the precompilers configuration and optionally
 {
     // compilers should be an array of precompiler configurations
     "compilers": [
-        // one option is to set built-in precompilers,
+        // one option is to use precompiler packages,
         {
-            // by setting the type of it
-            "type": "Replacer",
+            // by setting the package
+            "package": "gpc-replacer",
             // any by setting the configuration which
             // is passed to the constructor
             "configuration": {
@@ -98,29 +115,6 @@ The configuration **must** contain the precompilers configuration and optionally
     // destination can also be set here
     "destination": "e2e/features/dist"
 }
-```
-
-## Gulp
-
-```javascript
-//gulpfile.js
-//...
-const gulpCompiler = require('gherkin-precompiler/gulp'); 
-const compiler = require('gherkin-precompiler');
-const compilers = [
-    new compiler.builtIn.Replacer({
-        name: 'Hello'
-    })
-];
-const compilerFormat = {
-    lineBreak: '\r\n'
-};
-
-gulp.task('precompile', () => {
-    return gulp.src('./features/**/*.feature')
-        .pipe(gulpCompiler(compilers, compilerFormat))
-        .pipe(gulp.dest('./dist/features'));
-});
 ```
 
 ## API
@@ -143,7 +137,7 @@ Saves the given AST ast feature file to the given path.
  
  * `{string} pathToFile` - the path of the feature file where the AST needs to be saved
  * `{GherkinDocument} ast` - the AST needs to be saved to the file
- * `{AssemblerConfig} [options]` - configuration of formatting, see [AssemblerConfig](https://github.com/judit-nahaj/gherkin-assembler)
+ * `{FormatterConfig} [options]` - configuration of formatting, see [FormatterConfig](https://github.com/gherking/gherkin-formatter)
  
 ### `process`
 
@@ -155,11 +149,6 @@ Applies the given pre-compilers to the given AST.
  * `{...DefaultConfig|Object} pre-compilers` - the pre-compilers needs to be applied to the given AST
  
 **Returns:** `{GherkinDocument}` the processed AST
-
-### `format`
-
-Formats the given `GherkinDocument` to text.
-*Equivalent of gherkin-assembler's `format` method. See API [here](https://github.com/judit-nahaj/gherkin-assembler).*
 
 ### Configuration
 
