@@ -1,0 +1,7 @@
+{
+    "compilers": [
+        {
+            "path": "test/cli/compilers"
+        }
+    ]
+}

@@ -1,0 +1,10 @@
+{
+    "compilers": [
+        {
+            "path": "gpc-test",
+            "configuration": {
+                "name": "PACKAGE"
+            }
+        }
+    ]
+}

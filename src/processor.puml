@@ -1,0 +1,44 @@
+@startuml
+skinparam rectangle {
+  BackgroundColor<<list>> orange
+  BackgroundColor<<single>> aqua
+  BackgroundColor<<implicit>> grey
+}
+
+rectangle Document <<single>>
+rectangle Feature <<single>>
+rectangle Tag <<list>>
+rectangle Rule <<list>>
+rectangle Scenario <<list>>
+rectangle Step <<list>>
+rectangle DocString <<single>>
+rectangle DataTable <<single>>
+rectangle TableRow <<list>>
+rectangle TableCell <<implicit>>
+rectangle Background <<list>>
+rectangle ScenarioOutline <<list>>
+rectangle Examples <<list>>
+
+Document --> Feature : feature?
+Feature --> Tag : tags*
+Feature --> Rule : elements*
+Feature --> Scenario : elements*
+Feature --> Background : elements*
+Feature --> ScenarioOutline : elements*
+Rule --> Scenario : elements*
+Rule --> Background : elements*
+Rule --> ScenarioOutline : elements*
+Scenario --> Tag : tags*
+ScenarioOutline --> Tag : tags*
+Scenario --> Step : steps*
+Background --> Step : steps*
+ScenarioOutline --> Step : steps*
+Step --> DocString : docString?
+Step --> DataTable : dataTable?
+DataTable --> TableRow : rows*
+TableRow --> TableCell : cells*
+ScenarioOutline --> Examples : examples*
+Examples --> Tag : tags*
+Examples --> TableRow : header?
+Examples --> TableRow : rows*
+@enduml

@@ -1,0 +1,7 @@
+{
+    "compilers": [
+        {
+            "path": "tests/cli/compilers/gpc-test-object.js"
+        }
+    ]
+}
